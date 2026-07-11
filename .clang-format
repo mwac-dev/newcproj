@@ -1,0 +1,61 @@
+BasedOnStyle: LLVM
+
+# General layout
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+ColumnLimit: 0
+
+NamespaceIndentation: All
+AccessModifierOffset: -4
+
+# Braces / control flow
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterNamespace: false
+  AfterFunction: true
+  AfterClass: true
+  AfterStruct: true
+  AfterEnum: true
+  AfterControlStatement: true
+  BeforeElse: true
+  BeforeCatch: true
+
+AlwaysBreakTemplateDeclarations: Yes
+SpaceBeforeParens: ControlStatements
+IndentCaseLabels: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+
+# Pointers and references: attach to the type
+DerivePointerAlignment: false
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+
+# Keep comments readable without aligning unrelated sections.
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+# Align only contiguous visual groups.
+AlignConsecutiveAssignments: None
+
+
+AlignConsecutiveDeclarations: None
+
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+# Useful for tables, vertex data, lookup tables, and matrix-like row data.
+AlignArrayOfStructures: Right
+
+# Keep preprocessor code orderly.
+AlignEscapedNewlines: Right
+IndentPPDirectives: AfterHash
+
+# Avoid formatter-generated one-line control flow.
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
