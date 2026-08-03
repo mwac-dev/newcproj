@@ -1,5 +1,24 @@
 include(FetchContent)
 
+# ------------------------------------------------------------
+# reflection
+# ------------------------------------------------------------
+
+if(MWAC_ENABLE_REFLECTION)
+    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        message(FATAL_ERROR
+            "MWAC_ENABLE_REFLECTION currently requires GCC 16 or newer"
+        )
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+        message(FATAL_ERROR
+            "C++26 reflection requires GCC 16 or newer"
+        )
+    endif()
+
+endif()
+
 # rlImGui requires both raylib and Dear ImGui.
 if(MWAC_WITH_RLIMGUI)
     set(MWAC_WITH_RAYLIB ON)

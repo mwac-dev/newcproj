@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.30)
 
 project(
     MYPROJECT_CHANGENAME
@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Optional features
 # ------------------------------------------------------------
 
+option(MWAC_ENABLE_REFLECTION "Enable experimental C++26 reflection" OFF)
 option(MWAC_WITH_RAYLIB  "Enable raylib" OFF)
 option(MWAC_WITH_RLIMGUI "Enable rlImGui integration" OFF)
 option(MWAC_WITH_IMGUI   "Enable Dear ImGui" OFF)
@@ -39,11 +40,17 @@ add_executable(app
     ${APP_SOURCES}
 )
 
-target_compile_features(app PRIVATE cxx_std_23)
+
+target_compile_features(
+    app
+    PRIVATE
+        cxx_std_26
+)
 
 set_target_properties(
     app
     PROPERTIES
+        CXX_STANDARD_REQUIRED YES
         CXX_EXTENSIONS OFF
 )
 
@@ -64,6 +71,39 @@ target_compile_definitions(
     PRIVATE
         PROJECT_NAME="${PROJECT_NAME}"
 )
+
+# ------------------------------------------------------------
+# C++26 reflection
+# ------------------------------------------------------------
+
+if(MWAC_ENABLE_REFLECTION)
+    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        message(
+            FATAL_ERROR
+            "C++26 reflection currently requires GCC"
+        )
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+        message(
+            FATAL_ERROR
+            "C++26 reflection requires GCC 16 or newer"
+        )
+    endif()
+
+    target_compile_options(
+        app
+        PRIVATE
+            -freflection
+    )
+
+    target_compile_definitions(
+        app
+        PRIVATE
+            MWAC_HAS_CPP26_REFLECTION=1
+    )
+endif()
+
 
 # ------------------------------------------------------------
 # Warnings
